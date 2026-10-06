@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-06T06:04:13.246Z",
+  "url": "https://teenie-forest-kart-20261006.netlify.app",
+  "transport": "two independent HTTP clients, not two physical devices",
+  "checks": [
+    "deployed health endpoint",
+    "capacity, isolation, nonexistent code, started room rejection, forged result ignored, shared countdown, two server-authoritative full races, leave forfeit"
+  ],
+  "races": [
+    {
+      "mode": "speed",
+      "requests": 520,
+      "maxLatencyMs": 2124,
+      "wallTimeMs": 166436,
+      "players": [
+        {
+          "name": "HTTP검증A",
+          "char": 0,
+          "finish": 163.2533333333548,
+          "laps": [
+            51.93766666666505,
+            48.08733333333062,
+            63.22833333335912
+          ]
+        },
+        {
+          "name": "HTTP검증B",
+          "char": 3,
+          "finish": 163.50600000002166,
+          "laps": [
+            53.32366666666497,
+            51.080666666663795,
+            59.10166666669289
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "item",
+      "requests": 536,
+      "maxLatencyMs": 1125,
+      "wallTimeMs": 155565,
+      "players": [
+        {
+          "name": "HTTP검증A",
+          "char": 0,
+          "finish": 152.10033333334604,
+          "laps": [
+            47.59466666666529,
+            49.52866666666391,
+            54.977000000016844
+          ]
+        },
+        {
+          "name": "HTTP검증B",
+          "char": 3,
+          "finish": 152.65533333334648,
+          "laps": [
+            51.84233333333172,
+            47.234666666664026,
+            53.57833333335073
+          ]
+        }
+      ]
+    }
+  ],
+  "success": true
+}
