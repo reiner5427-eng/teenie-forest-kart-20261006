@@ -1,5 +1,5 @@
 import {randomBytes,createHash} from 'node:crypto';
-import {racer,race,step,cleanName,clamp} from '../../../src/sim.js';
+import {racer,race,step,cleanRegistrationName,clamp} from '../../../src/sim.js';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const err=(message,status=400)=>Object.assign(Error(message),{status});
 const key=code=>'room/'+code;
@@ -12,7 +12,7 @@ function forfeit(r,index,reason){r.status='finished';r.reason=reason;r.game.done
 export async function roomAction(store,b,now=Date.now()){
  const action=b.action;if(action==='health')return {online:true,serverTime:now,transport:'400ms polling'};
  if(action==='create'){
-  const name=cleanName(b.name),char=clamp(Math.trunc(Number(b.char)||0),0,5),secret=token();
+  const name=cleanRegistrationName(b.name),char=clamp(Math.trunc(Number(b.char)||0),0,5),secret=token();
   for(let attempt=0;attempt<12;attempt++){const id=code(),p=racer(name,char);p.secret=hash(secret);p.seen=now;const r={code:id,mode:b.mode==='item'?'item':'speed',players:[p],status:'lobby',createdAt:now,expires:now+45*60*1000,startAt:null,lastTick:now,revision:0};const written=await store.setJSON(key(id),r,{onlyIfNew:true});if(written.modified)return {code:id,token:secret,index:0,room:publicRoom(r),serverTime:now};}
   throw err('입장코드를 만들지 못했습니다. 다시 시도해주세요.',503);
  }
@@ -23,7 +23,7 @@ export async function roomAction(store,b,now=Date.now()){
   let index=-1,newToken;
   if(action==='join'){
    if(r.status!=='lobby')throw err('이미 시작한 방에는 입장할 수 없습니다.',409);if(r.players.length>=2)throw err('방이 가득 찼습니다. 정원은 2명입니다.',409);
-   newToken=token();index=1;const p=racer(cleanName(b.name),b.char,1);p.secret=hash(newToken);p.seen=now;r.players.push(p);
+   newToken=token();index=1;const p=racer(cleanRegistrationName(b.name),b.char,1);p.secret=hash(newToken);p.seen=now;r.players.push(p);
   }else{
    if(typeof b.token!=='string'||b.token.length!==48)throw err('방 참가 인증이 필요합니다.',401);index=r.players.findIndex(p=>p.secret===hash(b.token));if(index<0)throw err('이 방의 참가자가 아닙니다.',403);
    advance(r,now);const p=r.players[index];if(action==='ready'){

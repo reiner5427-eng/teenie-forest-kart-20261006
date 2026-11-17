@@ -16,6 +16,12 @@ export const TRACK=[];let length=0,last=curve(0);
 for(let i=0;i<=800;i++){const p=curve(i/800);if(i)length+=Math.hypot(...p.map((v,k)=>v-last[k]));TRACK.push({x:p[0],y:p[1],z:p[2],s:length});last=p;}
 export const LENGTH=length,WIDTH=15,GATES=12;
 export function point(s,offset=0){s=mod(s,LENGTH);let lo=0,hi=800;while(hi-lo>1){const m=(hi+lo)>>1;if(TRACK[m].s<=s)lo=m;else hi=m;}const a=TRACK[lo],b=TRACK[hi],f=(s-a.s)/(b.s-a.s);const dx=b.x-a.x,dz=b.z-a.z,n=Math.hypot(dx,dz);return {x:a.x+(b.x-a.x)*f+dz/n*offset,y:a.y+(b.y-a.y)*f,z:a.z+(b.z-a.z)*f-dx/n*offset,heading:Math.atan2(dx,dz)};}
+export function cleanRegistrationName(value) {
+  const name = cleanName(value);
+  if (/세무냥이|리트냥이|편입냥이|충주냥이|7급냥이|한전냥이|작수냥이|엠딧냥이|관세냥이|감평냥이/u.test(name.normalize('NFKC').toLowerCase().replace(/[\s\p{Cf}\p{M}_-]/gu, '').normalize('NFKC'))) throw new Error('사용할 수 없는 닉네임입니다.');
+  return name;
+}
+
 export function cleanName(v){const s=String(v??'').trim();if(!s||s.length>12)throw Error('이름을 1~12자로 입력해주세요.');return s;}
 export function racer(name,char,i=0){return {name:cleanName(name),char:clamp(Math.trunc(Number(char)||0),0,5),s:0,offset:(i%2?2.6:-2.6),speed:0,yaw:0,slip:0,drift:false,gauge:0,boosts:0,boost:0,shield:0,stun:0,spin:0,item:null,lap:0,nextGate:1,lapStart:0,laps:[],finish:null,ready:false,seq:0,held:{},inputAt:0,seen:0,itemCooldown:0,ai:false,index:i};}
 export function race(mode,players,seed=42){return {mode,players,time:0,seed,boxes:Array.from({length:9},(_,i)=>({s:(i+.5)*LENGTH/9,ready:0})),traps:[],projectiles:[],events:[],finishOrder:[],done:false};}
