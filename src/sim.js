@@ -17,7 +17,7 @@ for(let i=0;i<=800;i++){const p=curve(i/800);if(i)length+=Math.hypot(...p.map((v
 export const LENGTH=length,WIDTH=15,GATES=12;
 export function point(s,offset=0){s=mod(s,LENGTH);let lo=0,hi=800;while(hi-lo>1){const m=(hi+lo)>>1;if(TRACK[m].s<=s)lo=m;else hi=m;}const a=TRACK[lo],b=TRACK[hi],f=(s-a.s)/(b.s-a.s);const dx=b.x-a.x,dz=b.z-a.z,n=Math.hypot(dx,dz);return {x:a.x+(b.x-a.x)*f+dz/n*offset,y:a.y+(b.y-a.y)*f,z:a.z+(b.z-a.z)*f-dx/n*offset,heading:Math.atan2(dx,dz)};}
 function matchesRemovedNickname(name) {
-  return typeof name === 'string' && /노안|예일리언|에일리언|야르|왜|잼민|응우엔|응우옌|응우|장애|게이/u.test(name.normalize('NFKC').toLowerCase().replace(/[\s\p{Cf}\p{M}_-]/gu, '').normalize('NFKC'));
+  return typeof name === 'string' && /노안|예일리언|에일리언|야르|왜|잼민|응우엔|응우옌|응우|장애|게이|사랑해|죽|니거|니그로|돼지|섹시|울트라|씹/u.test(name.normalize('NFKC').toLowerCase().replace(/[\s\p{Cf}\p{M}_-]/gu, '').normalize('NFKC'));
 }
 
 export function pruneStoredRecords(storage, key, nameField) {
@@ -30,7 +30,7 @@ export function pruneStoredRecords(storage, key, nameField) {
 
 export function cleanRegistrationName(value) {
   const name = cleanName(value);
-  if (/세무냥이|리트냥이|편입냥이|충주냥이|7급냥이|한전냥이|작수냥이|엠딧냥이|관세냥이|감평냥이|노안|예일리언|에일리언|야르|왜|잼민|응우엔|응우옌|응우|장애|게이/u.test(name.normalize('NFKC').toLowerCase().replace(/[\s\p{Cf}\p{M}_-]/gu, '').normalize('NFKC'))) throw new Error('사용할 수 없는 닉네임입니다.');
+  if (/세무냥이|리트냥이|편입냥이|충주냥이|7급냥이|한전냥이|작수냥이|엠딧냥이|관세냥이|감평냥이|노안|예일리언|에일리언|야르|왜|잼민|응우엔|응우옌|응우|장애|게이|사랑해|죽|니거|니그로|돼지|섹시|울트라|씹/u.test(name.normalize('NFKC').toLowerCase().replace(/[\s\p{Cf}\p{M}_-]/gu, '').normalize('NFKC'))) throw new Error('사용할 수 없는 닉네임입니다.');
   return name;
 }
 
